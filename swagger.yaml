@@ -1,0 +1,409 @@
+openapi: '3.0.3'
+servers:
+  - url: 'http://localhost:3000'
+    description: Development
+
+info:
+  description: 'Api docs for Social Extags'
+  title: 'Social Extags APIs'
+  version: '1.0.0'
+
+components:
+  securitySchemes:
+    Auth:
+      type: apiKey
+      name: Authorization
+      in: header
+  responsesSchemes:
+    badRequest:
+      description: 	This is a bad request, please stick to the API description
+    internalError:
+      description: An internal server error occured, notify your administrator
+  schemas:
+    restCreateUserDTO:
+      application/json:
+        schema:
+          type: object
+          properties:
+            email:
+              type: string
+              required: true
+            fullname:
+              type: string
+              required: true
+            nickname:
+              type: string
+              required: true
+            password:
+              type: string
+              required: true
+    restLoginRequestDTO:
+      application/json:
+        schema:
+          type: object
+          properties:
+            email:
+              type: string
+              required: true
+            password:
+              type: string
+              required: true
+      application/json:
+        schema:
+          type: object
+          properties:
+            email:
+              type: string
+              required: true
+            fullname:
+              type: string
+              required: true
+            nickname:
+              type: string
+              required: true
+            password:
+              type: string
+              required: true
+    restUpdateUserDTO:
+      application/json:
+        schema:
+          type: object
+          properties:
+            address:
+              type: string
+              required: true
+            addressNumber:
+              type: integer
+              required: true
+            birthDate:
+              type: string
+              required: true
+            city:
+              type: string
+              required: true
+            complement:
+              type: string
+              required: true
+            country:
+              type: string
+              required: true
+            document:
+              type: string
+              required: true
+            fullname:
+              type: string
+              required: true
+            genderType:
+              type: string
+              required: true
+            nickname:
+              type: string
+              required: true
+            phone:
+              type: string
+              required: true
+            state:
+              type: string
+              required: true
+      application/json:
+        schema:
+          type: object
+          properties:
+            email:
+              type: string
+              required: true
+            password:
+              type: string
+              required: true
+      application/json:
+        schema:
+          type: object
+          properties:
+            email:
+              type: string
+              required: true
+            fullname:
+              type: string
+              required: true
+            nickname:
+              type: string
+              required: true
+            password:
+              type: string
+              required: true
+    restRefreshTokenRequest:
+      application/json:
+        schema:
+          type: object
+          properties:
+            refreshToken:
+              type: string
+              required: true
+    restCreatePostDTO:
+      application/json:
+        schema:
+          type: object
+          properties:
+            title:
+              type: string
+              required: true
+            content:
+              type: string
+              required: true
+            thumbnail:
+              type: string
+              required: true
+            author:
+              type: string
+              required: true
+    
+
+paths:
+  /health-check:
+    get:
+      tags:
+        - System
+      summary: Confere a saúde do serviço
+      description: Esse endpoint verifica se o serivço está UP
+      responses:
+        '200':
+          description: A status message object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+
+  /users:
+    post:
+      tags:
+        - User
+      summary: Operation to register a new user
+      description: Operation to register a new user
+      responses:
+        200:
+          description: User successfully logged
+        400:
+          $ref: '#/components/responsesSchemes/badRequest'
+        500:
+          $ref: '#/components/responsesSchemes/badRequest'
+      requestBody:
+        required: true
+        content:
+          $ref: '#/components/schemas/restCreateUserDTO'
+
+  /users/login:
+    post:
+      tags:
+        - User
+      summary: Operation to register a new user
+      description: Operation to register a new user
+
+      responses:
+        200:
+          description: User successfully logged
+        400:
+          $ref: '#/components/responsesSchemes/badRequest'
+        500:
+          $ref: '#/components/responsesSchemes/badRequest'
+
+      requestBody:
+        required: true
+        content:
+          $ref: '#/components/schemas/restLoginRequestDTO'
+
+  /users/refresh-token:
+    post:
+      tags:
+        - User
+      summary: Operation to refresh logged user token
+      description: Operation to refresh logged user token
+      responses:
+        200:
+          description: User token successfully refreshed
+        400:
+          $ref: '#/components/responsesSchemes/badRequest'
+        500:
+          $ref: '#/components/responsesSchemes/internalError'
+      requestBody:
+        required: true
+        content:
+          $ref: '#/components/schemas/restRefreshTokenRequest'
+
+  /users/{userId}:
+    get:
+      security:
+      - Auth: []
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+      tags:
+        - User
+      summary: Operation to return a specific user info
+      description: Operation to return a specific user info
+      responses:
+        200:
+          description: User returned successfully
+        400:
+          $ref: '#/components/responsesSchemes/badRequest'
+        500:
+          $ref: '#/components/responsesSchemes/internalError'
+    put:
+      security:
+      - Auth: []
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+      tags:
+        - User
+      summary: Operation to update a specific user info
+      description: Operation to update a specific user info
+      responses:
+        200:
+          description: User updated successfully
+        400:
+          $ref: '#/components/responsesSchemes/badRequest'
+        500:
+          $ref: '#/components/responsesSchemes/internalError'
+      requestBody:
+        required: true
+        content:
+          $ref: '#/components/schemas/restUpdateUserDTO'
+    delete:
+      security:
+      - Auth: []
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+      tags:
+        - User
+      summary: Operation to delete a specific user info
+      description: Operation to delete a specific user info
+      responses:
+        200:
+          description: User deleted successfully
+        400:
+          $ref: '#/components/responsesSchemes/badRequest'
+        500:
+          $ref: '#/components/responsesSchemes/internalError'
+
+  /users/self:
+    get:
+      security:
+      - Auth: []
+      tags:
+        - User
+      summary: Operation to return logged user info
+      description: Operation to return logged user info
+      responses:
+        200:
+          description: User returned successfully
+        400:
+          $ref: '#/components/responsesSchemes/badRequest'
+        500:
+          $ref: '#/components/responsesSchemes/internalError'
+    put:
+      security:
+      - Auth: []
+      tags:
+        - User
+      summary: Operation to update logged user info
+      description: Operation to update logged user info
+      responses:
+        200:
+          description: User updated successfully
+        400:
+          $ref: '#/components/responsesSchemes/badRequest'
+        500:
+          $ref: '#/components/responsesSchemes/internalError'
+      requestBody:
+        required: true
+        content:
+          $ref: '#/components/schemas/restUpdateUserDTO'
+    delete:
+      security:
+      - Auth: []
+      tags:
+        - User
+      summary: Operation to delete logged user info
+      description: Operation to delete logged user info
+      responses:
+        200:
+          description: User deleted successfully
+        400:
+          $ref: '#/components/responsesSchemes/badRequest'
+        500:
+          $ref: '#/components/responsesSchemes/internalError'
+
+  /posts:
+    post:
+      tags:
+        - Post
+      summary: Operation to register a new post
+      description: Operation to register a new post
+      security:
+      - Auth: []
+      responses:
+        200:
+          description: Post successfully creating
+        400:
+          $ref: '#/components/responsesSchemes/badRequest'
+        500:
+          $ref: '#/components/responsesSchemes/badRequest'
+      requestBody:
+        required: true
+        content:
+          $ref: '#/components/schemas/restCreatePostDTO'  
+        
+  /posts/{postId}:
+    get:
+      security:
+      - Auth: []
+      parameters:
+        - in: path
+          name: postId
+          schema:
+            type: string
+          required: true
+      tags:
+        - Post
+      summary: Operation to return a specific post
+      description: Operation to return a specific post
+      responses:
+        200:
+          description: Post returned successfully
+        400:
+          $ref: '#/components/responsesSchemes/badRequest'
+        500:
+          $ref: '#/components/responsesSchemes/internalError'
+    delete:
+      security:
+      - Auth: []
+      parameters:
+        - in: path
+          name: postId
+          schema:
+            type: string
+          required: true
+      tags:
+        - Post
+      summary: Operation to delete a specific post
+      description: Operation to delete a specific post
+      responses:
+        200:
+          description: Post deleted successfully
+        400:
+          $ref: '#/components/responsesSchemes/badRequest'
+        500:
+          $ref: '#/components/responsesSchemes/internalError'

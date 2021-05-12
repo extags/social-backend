@@ -153,9 +153,6 @@ components:
             thumbnail:
               type: string
               required: true
-            author:
-              type: string
-              required: true
     
 
 paths:
@@ -407,3 +404,27 @@ paths:
           $ref: '#/components/responsesSchemes/badRequest'
         500:
           $ref: '#/components/responsesSchemes/internalError'
+    put:
+      security:
+      - Auth: []
+      parameters:
+        - in: path
+          name: postId
+          schema:
+            type: string
+          required: true
+      tags:
+        - Post
+      summary: Operation to update a specific post
+      description: Operation to update a specific post
+      responses:
+        200:
+          description: Post updated successfully
+        400:
+          $ref: '#/components/responsesSchemes/badRequest'
+        500:
+          $ref: '#/components/responsesSchemes/internalError'
+      requestBody:
+        required: true
+        content:
+          $ref: '#/components/schemas/restCreatePostDTO'  

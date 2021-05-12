@@ -8,13 +8,18 @@ class PostService {
     return post;
   }
 
-  async createPost(params) {
-    const post = await this.postRepository.create(params);
+  async createPost(user, params) {
+    const post = await this.postRepository.create({ ...params, user });
     return post;
   }
 
   async deletePost(postId) {
     const post = await this.postRepository.delete(postId);
+    return post;
+  }
+
+  async updatePost(postId, params) {
+    const post = await this.postRepository.update(postId, params);
     return post;
   }
 }

@@ -15,7 +15,8 @@ module.exports = (ctx) => ({
   createPost: async (req, res, next) => {
     try {
       // todo: input validator
-      const post = await ctx.postOperations.create(req.body);
+      const { userId } = req.user;
+      const post = await ctx.postOperations.create(userId, req.body);
       res.status(200).send(post);
     } catch (e) {
       next(e);
@@ -33,6 +34,17 @@ module.exports = (ctx) => ({
     }
   },
 
+  updatePost: async (req, res, next) => {
+    try {
+      // todo: input validator
+      const { postId } = req.params;
+      const post = await ctx.postOperations.update(postId, req.body);
+      res.status(200).send(post);
+    } catch (e) {
+      next(e);
+    }
+  },
+
   get router() {
     const router = Router();
 
@@ -40,6 +52,7 @@ module.exports = (ctx) => ({
     router.post('/', this.createPost);
     router.get('/:postId', this.getPostById);
     router.delete('/:postId', this.deletePost);
+    router.put('/:postId', this.updatePost);
 
     return router;
   },

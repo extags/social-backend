@@ -45,6 +45,30 @@ module.exports = (ctx) => ({
     }
   },
 
+  createLikePost: async (req, res, next) => {
+    try {
+      // todo: input validator
+      const { userId } = req.user;
+      const { postId } = req.params;
+      const post = await ctx.likeOperations.create(userId, postId);
+      res.status(200).send(post);
+    } catch (e) {
+      next(e);
+    }
+  },
+
+  deleteLikePost: async (req, res, next) => {
+    try {
+      // todo: input validator
+      const { userId } = req.user;
+      const { postId } = req.params;
+      const post = await ctx.likeOperations.delete(userId, postId);
+      res.status(200).send(post);
+    } catch (e) {
+      next(e);
+    }
+  },
+
   get router() {
     const router = Router();
 
@@ -53,6 +77,9 @@ module.exports = (ctx) => ({
     router.get('/:postId', this.getPostById);
     router.delete('/:postId', this.deletePost);
     router.put('/:postId', this.updatePost);
+
+    router.post('/:postId/like', this.createLikePost);
+    router.delete('/:postId/like', this.deleteLikePost);
 
     return router;
   },

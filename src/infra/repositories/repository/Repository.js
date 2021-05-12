@@ -52,6 +52,12 @@ class Repository {
     return resource;
   }
 
+  async findOneAndDelete(query) {
+    await this.ResourceModel.findOneAndDelete(query, (err) => {
+      if (err) throw new Error(err);
+    });
+  }
+
   async delete(id) {
     await this.ResourceModel.findByIdAndDelete(id, (err) => {
       if (err) throw new Error(err);

@@ -13,6 +13,7 @@ const MongoProvider = require('./infra/providers/MongoProvider');
 const KeycloakProvider = require('./infra/providers/KeycloakProvider');
 const RequestError = require('./infra/exceptions/RequestError');
 const PostModel = require('./infra/database/models/PostModel');
+const CommentModel = require('./infra/database/models/CommentModel');
 
 container
   .register({
@@ -28,6 +29,7 @@ container
     RequestError: awilix.asValue(RequestError),
     container: awilix.asValue(container),
     postModel: awilix.asFunction(PostModel).singleton(),
+    commentModel: awilix.asFunction(CommentModel).singleton(),
   })
   .loadModules(
     [

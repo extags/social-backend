@@ -20,6 +20,7 @@ module.exports = (ctx) => {
 
   ApiRouter.use('/users', handle(ctx.userController.router));
   ApiRouter.use('/posts', handle(ctx.postController.router));
+  ApiRouter.use('/comments', handle(ctx.commentController.router));
 
   ApiRouter.use('/*', (_, res) => res.status(404).send({ message: 'Not found' }));
 

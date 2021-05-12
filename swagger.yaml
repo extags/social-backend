@@ -153,6 +153,17 @@ components:
             thumbnail:
               type: string
               required: true
+    restCreateCommentDTO:
+      application/json:
+        schema:
+          type: object
+          properties:
+            content:
+              type: string
+              required: true
+            post:
+              type: string
+              required: true
     
 
 paths:
@@ -428,3 +439,69 @@ paths:
         required: true
         content:
           $ref: '#/components/schemas/restCreatePostDTO'  
+
+  /comments:
+    post:
+      tags:
+        - Comment
+      summary: Operation to register a new comment
+      description: Operation to register a new comment
+      security:
+      - Auth: []
+      responses:
+        200:
+          description: Comment successfully creating
+        400:
+          $ref: '#/components/responsesSchemes/badRequest'
+        500:
+          $ref: '#/components/responsesSchemes/badRequest'
+      requestBody:
+        required: true
+        content:
+          $ref: '#/components/schemas/restCreateCommentDTO'  
+        
+  /comments/{commentId}:
+    delete:
+      security:
+        - Auth: []
+      parameters:
+        - in: path
+          name: commentId
+          schema:
+            type: string
+          required: true
+      tags:
+        - Comment
+      summary: Operation to delete a specific comment
+      description: Operation to delete a specific comment
+      responses:
+        200:
+          description: Comment deleted successfully
+        400:
+          $ref: '#/components/responsesSchemes/badRequest'
+        500:
+          $ref: '#/components/responsesSchemes/internalError'
+    put:
+      security:
+      - Auth: []
+      parameters:
+        - in: path
+          name: commentId
+          schema:
+            type: string
+          required: true
+      tags:
+        - Comment
+      summary: Operation to comment a specific post
+      description: Operation to comment a specific post
+      responses:
+        200:
+          description: Comment updated successfully
+        400:
+          $ref: '#/components/responsesSchemes/badRequest'
+        500:
+          $ref: '#/components/responsesSchemes/internalError'
+      requestBody:
+        required: true
+        content:
+          $ref: '#/components/schemas/restCreateCommentDTO'  

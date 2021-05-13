@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const handle = require('express-async-handler');
 
 module.exports = (ctx) => ({
   getPostById: async (req, res, next) => {
@@ -69,6 +70,30 @@ module.exports = (ctx) => ({
     }
   },
 
+  getComments: async (req, res, next) => {
+    try {
+      // todo: input validator
+      const { postId } = req.params;
+      const comments = await ctx.getPostComments.execute(postId);
+      res.status(200).send(comments);
+    } catch (e) {
+      next(e);
+    }
+  },
+
+  createComment: async (req, res, next) => {
+    try {
+      // todo: input validator
+      const { userId } = req.user;
+      const { postId } = req.params;
+      const { content } = req.body;
+      const comment = await ctx.commentOperations.create(userId, postId, content);
+      res.status(200).send(comment);
+    } catch (e) {
+      next(e);
+    }
+  },
+
   get router() {
     const router = Router();
 
@@ -77,6 +102,10 @@ module.exports = (ctx) => ({
     router.get('/:postId', this.getPostById);
     router.delete('/:postId', this.deletePost);
     router.put('/:postId', this.updatePost);
+
+    router.get('/:postId/comments', this.getComments);
+    router.post('/:postId/comments', this.createComment);
+    router.use('/comments', handle(ctx.commentController.router));
 
     router.post('/:postId/like', this.createLikePost);
     router.delete('/:postId/like', this.deleteLikePost);

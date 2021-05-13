@@ -161,9 +161,6 @@ components:
             content:
               type: string
               required: true
-            post:
-              type: string
-              required: true
 
 
 paths:
@@ -481,14 +478,21 @@ paths:
           $ref: '#/components/responsesSchemes/badRequest'
         500:
           $ref: '#/components/responsesSchemes/internalError'
-  /comments:
+  
+  /posts/{postId}/comments:
     post:
       tags:
-        - Comment
+        - Post
       summary: Operation to register a new comment
       description: Operation to register a new comment
       security:
       - Auth: []
+      parameters:
+        - in: path
+          name: postId
+          schema:
+            type: string
+          required: true
       responses:
         200:
           description: Comment successfully creating
@@ -500,8 +504,28 @@ paths:
         required: true
         content:
           $ref: '#/components/schemas/restCreateCommentDTO'  
-        
-  /comments/{commentId}:
+    get:
+      tags:
+        - Post
+      summary: Operation to get all coments
+      description: Operation to get all coments
+      security:
+      - Auth: []
+      parameters:
+        - in: path
+          name: postId
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: Comments successfully returned
+        400:
+          $ref: '#/components/responsesSchemes/badRequest'
+        500:
+          $ref: '#/components/responsesSchemes/badRequest'
+            
+  /posts/comments/{commentId}:
     delete:
       security:
         - Auth: []
@@ -512,7 +536,7 @@ paths:
             type: string
           required: true
       tags:
-        - Comment
+        - Post
       summary: Operation to delete a specific comment
       description: Operation to delete a specific comment
       responses:
@@ -532,7 +556,7 @@ paths:
             type: string
           required: true
       tags:
-        - Comment
+        - Post
       summary: Operation to comment a specific post
       description: Operation to comment a specific post
       responses:

@@ -6,7 +6,8 @@ module.exports = ({ mongoProvider: { mongoose } }) => {
     content: String,
     user: String,
     thumbnail: String,
-  });
+  },
+  { timestamps: true });
   const Post = mongoose.models.User || mongoose.model('PostModel', PostModel);
   return Post;
 };

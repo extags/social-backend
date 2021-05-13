@@ -17,6 +17,11 @@ class CommentService {
     const comment = await this.commentRepository.update(commentId, params);
     return comment;
   }
+
+  async getPostComments(post) {
+    const comment = await this.commentRepository.findAll({ post });
+    return comment;
+  }
 }
 
 module.exports = CommentService;

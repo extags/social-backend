@@ -5,7 +5,8 @@ module.exports = ({ mongoProvider: { mongoose } }) => {
     post: String,
     user: String,
     content: String,
-  });
+  },
+  { timestamps: true });
   const Comment = mongoose.models.Comment || mongoose.model('CommentModel', CommentModel);
   return Comment;
 };

@@ -1,11 +1,11 @@
 module.exports = ({ commentService }) => ({
-  create: async (user, params) => {
-    const comment = await commentService.createComment(user, params);
+  create: async (user, post, content) => {
+    const comment = await commentService.createComment(user, { post, content });
     return comment;
   },
 
-  update: async (commentId, params) => {
-    const comment = commentService.updateComment(commentId, params);
+  update: async (commentId, content) => {
+    const comment = commentService.updateComment(commentId, { content });
     return comment;
   },
 

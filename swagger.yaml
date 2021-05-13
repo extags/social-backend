@@ -352,6 +352,20 @@ paths:
           $ref: '#/components/responsesSchemes/internalError'
 
   /posts:
+    get:
+      tags:
+        - Post
+      summary: Operation to get all posts
+      description: Operation to get all posts
+      security:
+      - Auth: []
+      responses:
+        200:
+          description: Posts returned
+        400:
+          $ref: '#/components/responsesSchemes/badRequest'
+        500:
+          $ref: '#/components/responsesSchemes/badRequest'
     post:
       tags:
         - Post
@@ -369,7 +383,7 @@ paths:
       requestBody:
         required: true
         content:
-          $ref: '#/components/schemas/restCreatePostDTO'  
+          $ref: '#/components/schemas/restCreatePostDTO'
         
   /posts/{postId}:
     get:

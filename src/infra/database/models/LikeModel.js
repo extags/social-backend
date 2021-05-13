@@ -2,7 +2,7 @@ const { Schema } = require('mongoose');
 
 module.exports = ({ mongoProvider: { mongoose } }) => {
   const LikeModel = new Schema({
-    post: String,
+    post: { type: mongoose.Schema.Types.ObjectId, ref: 'Post' },
     user: String,
   },
   { timestamps: true });

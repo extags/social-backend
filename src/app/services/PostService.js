@@ -3,6 +3,11 @@ class PostService {
     this.postRepository = postRepository;
   }
 
+  async getAll() {
+    const posts = await this.postRepository.findAll();
+    return posts;
+  }
+
   async getPost(postId) {
     const post = await this.postRepository.get(postId);
     return post;

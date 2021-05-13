@@ -13,6 +13,16 @@ module.exports = (ctx) => ({
     }
   },
 
+  getPosts: async (req, res, next) => {
+    try {
+      // todo: input validator
+      const post = await ctx.getAllPostsOperation.execute();
+      res.status(200).send(post);
+    } catch (e) {
+      next(e);
+    }
+  },
+
   createPost: async (req, res, next) => {
     try {
       // todo: input validator
@@ -74,7 +84,7 @@ module.exports = (ctx) => ({
     try {
       // todo: input validator
       const { postId } = req.params;
-      const comments = await ctx.getPostComments.execute(postId);
+      const comments = await ctx.getPostCommentsOperation.execute(postId);
       res.status(200).send(comments);
     } catch (e) {
       next(e);
@@ -99,6 +109,7 @@ module.exports = (ctx) => ({
 
     router.use(ctx.verifyTokenMiddleware.execute);
     router.post('/', this.createPost);
+    router.get('/', this.getPosts);
     router.get('/:postId', this.getPostById);
     router.delete('/:postId', this.deletePost);
     router.put('/:postId', this.updatePost);

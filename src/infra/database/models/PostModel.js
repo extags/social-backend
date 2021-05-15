@@ -4,7 +4,7 @@ module.exports = ({ mongoProvider: { mongoose } }) => {
   const PostModel = new Schema({
     title: String,
     content: String,
-    user: String,
+    user: { type: Schema.Types.ObjectId, ref: 'user' },
     thumbnail: String,
   },
   { timestamps: true });

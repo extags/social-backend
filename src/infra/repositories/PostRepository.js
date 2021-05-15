@@ -5,6 +5,17 @@ class PostRepository extends Repository {
     super({
       ResourceModel: ctx.postModel,
     });
+    this.userModel = ctx.userModel;
+  }
+
+  async findAll() {
+    const posts = this.ResourceModel.find();
+    await posts.populate({
+      path: 'user',
+      model: this.userModel,
+      select: ['username', 'email'],
+    }).exec();
+    return posts;
   }
 }
 

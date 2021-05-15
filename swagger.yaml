@@ -28,6 +28,9 @@ components:
             email:
               type: string
               required: true
+            profileImage:
+              type: string
+              required: true
             fullname:
               type: string
               required: true

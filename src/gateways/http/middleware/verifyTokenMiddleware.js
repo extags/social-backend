@@ -7,7 +7,6 @@ module.exports = ({ config }) => ({
       const { publicKey } = config.keycloak;
       const decodeToken = await JwtHelper.verifyAccessToken(authorization, publicKey);
       req.user = decodeToken;
-      req.user.userId = decodeToken.sub;
       next();
     } catch (e) {
       res.status(401).send('Unauthorized');

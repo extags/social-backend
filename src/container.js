@@ -15,6 +15,7 @@ const RequestError = require('./infra/exceptions/RequestError');
 const PostModel = require('./infra/database/models/PostModel');
 const CommentModel = require('./infra/database/models/CommentModel');
 const LikeModel = require('./infra/database/models/LikeModel');
+const UserModel = require('./infra/database/models/UserModel');
 
 container
   .register({
@@ -32,6 +33,7 @@ container
     postModel: awilix.asFunction(PostModel).singleton(),
     commentModel: awilix.asFunction(CommentModel).singleton(),
     likeModel: awilix.asFunction(LikeModel).singleton(),
+    userModel: awilix.asFunction(UserModel).singleton(),
   })
   .loadModules(
     [

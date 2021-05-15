@@ -4,7 +4,7 @@ class LikeService {
   }
 
   async createLike(user, post) {
-    const like = await this.likeRepository.create({ post, user });
+    const like = await this.likeRepository.create({ _id: { post, user } });
     return like;
   }
 

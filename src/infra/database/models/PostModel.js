@@ -8,6 +8,6 @@ module.exports = ({ mongoProvider: { mongoose } }) => {
     thumbnail: String,
   },
   { timestamps: true });
-  const Post = mongoose.models.User || mongoose.model('PostModel', PostModel);
+  const Post = mongoose.model('PostModel', PostModel);
   return Post;
 };

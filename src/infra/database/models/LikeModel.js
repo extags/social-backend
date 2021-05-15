@@ -2,8 +2,10 @@ const { Schema } = require('mongoose');
 
 module.exports = ({ mongoProvider: { mongoose } }) => {
   const LikeModel = new Schema({
-    post: { type: mongoose.Schema.Types.ObjectId, ref: 'Post' },
-    user: String,
+    _id: {
+      post: { type: mongoose.Schema.Types.ObjectId, ref: 'Post' },
+      user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    },
   },
   { timestamps: true });
   const Like = mongoose.models.Like || mongoose.model('LikeModel', LikeModel);

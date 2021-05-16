@@ -21,7 +21,7 @@ class UserService {
       }],
       enabled: true,
     };
-    const user = await this.userRepository.create(payload);
+    const user = await this.userRepository.create(params);
     this.kcClient.users.create({
       ...payload,
       attributes: {

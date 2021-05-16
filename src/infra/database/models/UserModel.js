@@ -5,6 +5,7 @@ module.exports = ({ mongoProvider: { mongoose } }) => {
     name: String,
     email: String,
     username: String,
+    fullname: String,
     profileImage: String,
   },
   { timestamps: true });

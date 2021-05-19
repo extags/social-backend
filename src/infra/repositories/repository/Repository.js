@@ -29,20 +29,9 @@ class Repository {
     return resource;
   }
 
-  async findAll(query, pagination) {
-    const count = await this.ResourceModel.count(query);
-
-    const items = await this.ResourceModel.find(query)
-      .limit(parseInt((pagination.pageSize), 10))
-      .skip(parseInt((pagination.pageSize * pagination.pageNumber), 10));
-
-    return {
-      items,
-      metadata: {
-        count,
-        page: parseInt((pagination.pageNumber), 10) || 0,
-      },
-    };
+  async findAll(query) {
+    const items = await this.ResourceModel.find(query);
+    return items;
   }
 
   async update(query, params) {
@@ -50,6 +39,12 @@ class Repository {
       new: true,
     });
     return resource;
+  }
+
+  async findOneAndDelete(query) {
+    await this.ResourceModel.findOneAndDelete(query, (err) => {
+      if (err) throw new Error(err);
+    });
   }
 
   async delete(id) {

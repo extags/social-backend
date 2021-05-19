@@ -1,6 +1,7 @@
 class UserService {
-  constructor({ keycloakProvider }) {
+  constructor({ keycloakProvider, userRepository }) {
     this.kcClient = keycloakProvider.kcClient;
+    this.userRepository = userRepository;
   }
 
   async getUser(userId) {
@@ -10,7 +11,7 @@ class UserService {
 
   async createUser(params) {
     // todo: depara dos campos recebidos na requisão para o body que é enviado para o keycloak
-    const user = await this.kcClient.users.create({
+    const payload = {
       username: params.nickname,
       email: params.email,
       firstName: params.fullname,
@@ -19,8 +20,12 @@ class UserService {
         value: params.password,
       }],
       enabled: true,
+    };
+    const user = await this.userRepository.create(params);
+    this.kcClient.users.create({
+      ...payload,
       attributes: {
-        novo_campo: 'teste',
+        userId: user.id,
       },
     });
     return user;

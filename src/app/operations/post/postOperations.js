@@ -4,13 +4,18 @@ module.exports = ({ postService }) => ({
     return post;
   },
 
-  create: async (params) => {
-    const post = postService.createPost(params);
+  create: async (userId, params) => {
+    const post = postService.createPost(userId, params);
     return post;
   },
 
   delete: async (postId) => {
     const post = postService.deletePost(postId);
+    return post;
+  },
+
+  update: async (postId, params) => {
+    const post = postService.updatePost(postId, params);
     return post;
   },
 });

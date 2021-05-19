@@ -3,18 +3,28 @@ class PostService {
     this.postRepository = postRepository;
   }
 
+  async getAll() {
+    const posts = await this.postRepository.findAll();
+    return posts;
+  }
+
   async getPost(postId) {
     const post = await this.postRepository.get(postId);
     return post;
   }
 
-  async createPost(params) {
-    const post = await this.postRepository.create(params);
+  async createPost(user, params) {
+    const post = await this.postRepository.create({ ...params, user });
     return post;
   }
 
   async deletePost(postId) {
     const post = await this.postRepository.delete(postId);
+    return post;
+  }
+
+  async updatePost(postId, params) {
+    const post = await this.postRepository.update(postId, params);
     return post;
   }
 }

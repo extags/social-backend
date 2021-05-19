@@ -1,18 +1,8 @@
-FROM node:15-alpine
-
-RUN apk update && apk upgrade && \
-  apk add --no-cache bash git openssh
-
+FROM node:10.9.0-alpine
 WORKDIR /app
-
-COPY package.json .
-# COPY .npmrc .
-
-RUN npm install --only=production
-
-# RUN rm .npmrc
-
-COPY . .
-
+ADD . /app
+RUN npm install
+RUN npm install -g nodemon
+ENV NODE_ENV=development
+CMD ["npm", "run", "dev"]
 EXPOSE 3000
-CMD ["npm", "start"]

@@ -28,6 +28,9 @@ components:
             email:
               type: string
               required: true
+            profileImage:
+              type: string
+              required: true
             fullname:
               type: string
               required: true
@@ -153,10 +156,15 @@ components:
             thumbnail:
               type: string
               required: true
-            author:
+    restCreateCommentDTO:
+      application/json:
+        schema:
+          type: object
+          properties:
+            content:
               type: string
               required: true
-    
+
 
 paths:
   /health-check:
@@ -347,6 +355,20 @@ paths:
           $ref: '#/components/responsesSchemes/internalError'
 
   /posts:
+    get:
+      tags:
+        - Post
+      summary: Operation to get all posts
+      description: Operation to get all posts
+      security:
+      - Auth: []
+      responses:
+        200:
+          description: Posts returned
+        400:
+          $ref: '#/components/responsesSchemes/badRequest'
+        500:
+          $ref: '#/components/responsesSchemes/badRequest'
     post:
       tags:
         - Post
@@ -364,7 +386,7 @@ paths:
       requestBody:
         required: true
         content:
-          $ref: '#/components/schemas/restCreatePostDTO'  
+          $ref: '#/components/schemas/restCreatePostDTO'
         
   /posts/{postId}:
     get:
@@ -407,3 +429,161 @@ paths:
           $ref: '#/components/responsesSchemes/badRequest'
         500:
           $ref: '#/components/responsesSchemes/internalError'
+    put:
+      security:
+      - Auth: []
+      parameters:
+        - in: path
+          name: postId
+          schema:
+            type: string
+          required: true
+      tags:
+        - Post
+      summary: Operation to update a specific post
+      description: Operation to update a specific post
+      responses:
+        200:
+          description: Post updated successfully
+        400:
+          $ref: '#/components/responsesSchemes/badRequest'
+        500:
+          $ref: '#/components/responsesSchemes/internalError'
+      requestBody:
+        required: true
+        content:
+          $ref: '#/components/schemas/restCreatePostDTO'  
+  
+  /posts/{postId}/like:
+    post:
+      security:
+      - Auth: []
+      parameters:
+        - in: path
+          name: postId
+          schema:
+            type: string
+          required: true
+      tags:
+        - Post
+      summary: Operation to create like
+      description: Operation to create like
+      responses:
+        200:
+          description: Like create successfully
+        400:
+          $ref: '#/components/responsesSchemes/badRequest'
+        500:
+          $ref: '#/components/responsesSchemes/internalError'
+    delete:
+      security:
+      - Auth: []
+      parameters:
+        - in: path
+          name: postId
+          schema:
+            type: string
+          required: true
+      tags:
+        - Post
+      summary: Operation to delete like
+      description: Operation to delete like
+      responses:
+        200:
+          description: Like deleted successfully
+        400:
+          $ref: '#/components/responsesSchemes/badRequest'
+        500:
+          $ref: '#/components/responsesSchemes/internalError'
+  
+  /posts/{postId}/comments:
+    post:
+      tags:
+        - Post
+      summary: Operation to register a new comment
+      description: Operation to register a new comment
+      security:
+      - Auth: []
+      parameters:
+        - in: path
+          name: postId
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: Comment successfully creating
+        400:
+          $ref: '#/components/responsesSchemes/badRequest'
+        500:
+          $ref: '#/components/responsesSchemes/badRequest'
+      requestBody:
+        required: true
+        content:
+          $ref: '#/components/schemas/restCreateCommentDTO'  
+    get:
+      tags:
+        - Post
+      summary: Operation to get all coments
+      description: Operation to get all coments
+      security:
+      - Auth: []
+      parameters:
+        - in: path
+          name: postId
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: Comments successfully returned
+        400:
+          $ref: '#/components/responsesSchemes/badRequest'
+        500:
+          $ref: '#/components/responsesSchemes/badRequest'
+            
+  /posts/comments/{commentId}:
+    delete:
+      security:
+        - Auth: []
+      parameters:
+        - in: path
+          name: commentId
+          schema:
+            type: string
+          required: true
+      tags:
+        - Post
+      summary: Operation to delete a specific comment
+      description: Operation to delete a specific comment
+      responses:
+        200:
+          description: Comment deleted successfully
+        400:
+          $ref: '#/components/responsesSchemes/badRequest'
+        500:
+          $ref: '#/components/responsesSchemes/internalError'
+    put:
+      security:
+      - Auth: []
+      parameters:
+        - in: path
+          name: commentId
+          schema:
+            type: string
+          required: true
+      tags:
+        - Post
+      summary: Operation to comment a specific post
+      description: Operation to comment a specific post
+      responses:
+        200:
+          description: Comment updated successfully
+        400:
+          $ref: '#/components/responsesSchemes/badRequest'
+        500:
+          $ref: '#/components/responsesSchemes/internalError'
+      requestBody:
+        required: true
+        content:
+          $ref: '#/components/schemas/restCreateCommentDTO'  

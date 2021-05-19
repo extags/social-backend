@@ -6,6 +6,7 @@ module.exports = {
     const token = bearerToken[1];
     JWT.verify(token, publicKey, (err, payload) => {
       if (err) {
+	console.log(err);
         return reject(err.name);
       }
       return resolve(payload);
